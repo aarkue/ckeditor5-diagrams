@@ -1,7 +1,7 @@
 {
   "name": "@aarkue/ckeditor5-diagrams",
-  "version": "0.0.1",
-  "description": "A plugin for CKEditor 5.",
+  "version": "33.0.0",
+  "description": "diagrams.net / draw.io integration for ckeditor5",
   "keywords": [
     "ckeditor",
     "ckeditor5",
@@ -75,10 +75,5 @@
     "**/*.css": [
       "stylelint --quiet --allow-empty-input"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }

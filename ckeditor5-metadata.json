@@ -1,15 +1,20 @@
 {
 	"plugins": [
 		{
-			"name": "My plugin",
-			"className": "MyPlugin",
-			"description": "Adds text to the editor.",
-			"path": "src/myplugin.js",
+			"name": "Diagrams",
+			"className": "DiagramsPlugin",
+			"description": "diagrams.net / draw.io integration for ckeditor5.",
+			"path": "src/diagrams.js",
 			"uiComponents": [
 				{
-					"name": "myButton",
+					"name": "editDiagram",
 					"type": "Button",
-					"iconPath": "theme/icons/ckeditor.svg"
+					"iconPath": "theme/icons/diagram.svg"
+				},
+				{
+					"name": "insertDiagram",
+					"type": "Button",
+					"iconPath": "theme/icons/diagram.svg"
 				}
 			]
 		}

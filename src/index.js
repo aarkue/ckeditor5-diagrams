@@ -1,7 +1,7 @@
-import ckeditor from './../theme/icons/ckeditor.svg';
+import diagram from './../theme/icons/diagram.svg';
 
-export { default as MyPlugin } from './myplugin';
+export { default as DiagramsPlugin } from './diagrams';
 
 export const icons = {
-	ckeditor
+	diagram
 };
