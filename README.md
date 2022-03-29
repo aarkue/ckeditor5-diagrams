@@ -1,5 +1,19 @@
-@aarkue/ckeditor5-diagrams
+ckeditor5-diagrams
 ==========================
+Easily create and edit diagrams.net / draw.io diagrams in the editor.
+Uses the embed url of [diagrams.net](https://diagrams.net) per default. But a custom url can be set through the settings.
+Any image can be converted into a diagram (i.e., a new diagram is created and the image is inserted in it).
+Already edited images (or inserted images with included diagram information) can be edited as it.
+
+The inserted diagrams are image elements in the editor/html. The diagram information is embedded inside.
+## Screenshots
+
+![image](https://user-images.githubusercontent.com/20766652/160448255-2754d2a7-7c33-4243-a997-cb22393e19f1.png)
+
+
+
+
+![image](https://user-images.githubusercontent.com/20766652/160448010-323feace-0dbb-4371-aed6-07f93880ca5f.png)
 
 This package was created by the [ckeditor5-package-generator](https://www.npmjs.com/package/ckeditor5-package-generator) package.
 
