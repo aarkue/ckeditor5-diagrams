@@ -23,6 +23,7 @@ export class EditDiagramCommand extends Command {
             this.editor.model.change((writer) => {
                 writer.setSelection(null);
             });
+
             console.log({imgEl})
             var iframe = document.createElement('iframe');
             iframe.setAttribute('frameborder', '0');
@@ -31,37 +32,50 @@ export class EditDiagramCommand extends Command {
             iframe.setAttribute('style',"border:0;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:100;background-color:white;");
             document.body.appendChild(iframe);
             this.isEnabled = false;
-            window.addEventListener('message',(evt) => {
+            let dataURL;
+            window.addEventListener('message',async (evt) => {
                 console.log({evt})
                 if(evt.data && evt.data.length > 0){
                   const message = JSON.parse(evt.data);
                   if(iframe.contentWindow){
                   if('event' in message){
                    if(message.event === 'init'){
-                       // First try to load image as xml (i.e., embedded diagram in png), if that fails, we create a new one (see below)
-                        iframe.contentWindow.postMessage(JSON.stringify({action: 'load', xml: imgEl.getAttribute('src')}),'*');
+                        try{
+                            let blob = await fetch(imgEl.getAttribute('src')).then(r => r.blob());
+                            dataURL = await new Promise(resolve => {
+                                let reader = new FileReader();
+                                reader.onload = () => resolve(reader.result);
+                                reader.readAsDataURL(blob);
+                            });  
+                        }catch(err){
+                            console.error('Loading image failed', err);
+                        }
+                        if(dataURL){
+                            console.log('dataURL!',{dataURL})
+                            if(dataURL.indexOf('data:image/png') !== 0){
+                                // Content is not png, i.e. not png with embedded diagram
+                                const xml = createXMLWithImage(dataURL)
+                                iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': xml}),'*');
+                            }else{
+                                // First try to load image as xml (i.e., embedded diagram in png), if that fails, we create a new one (see below)
+                                iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': dataURL}),'*');
+                            }
+                        }else{
+                            console.log('No dataURL')
+                            iframe.contentWindow.postMessage(JSON.stringify({action: 'load', xml: ''}),'*');
+                            const imageLoadingFailedMessage = this.editor.config.get('diagram.imageLoadingFailedMessage') || 'The image could not be loaded. Please try again later or download the image manually and create a new diagram with it.';
+                            const imageLoadingFailedTitle = this.editor.config.get('diagram.imageLoadingFailedTitle') || 'Loading image failed';
+                            iframe.contentWindow.postMessage(JSON.stringify({action: 'dialog', title: imageLoadingFailedTitle, message: imageLoadingFailedMessage, button: 'Okay', modified: true}),'*')
+                        }
                     }else if(message.event === 'save'){
                       console.log('save');
                       iframe.contentWindow.postMessage(JSON.stringify({action: 'export', format: 'xmlpng', spinKey: 'saving'}),'*');
                     }else if(message.event === 'load'){
-                        // if the xml content is null, there is no content in the diagram (i.e., loading failed)
+                        // if the xml content is null (but the dataURL/image was loaded), there is no content in the diagram (i.e., loading the diagram failed)
                         // in that case, we create new xml content and simply embed the selected image
-                        if(message.xml === null){
+                        if(message.xml === null && dataURL !== undefined){
                             console.log('loading failed');
-                            const xml = `<?xml version="1.0" encoding="UTF-8"?>
-                            <mxfile host="embed.diagrams.net" modified="2022-03-28T14:28:23.794Z" agent="5.0 (X11)" version="17.2.4" etag="wXAFyWxSF_gL4y4L3svE" type="embed">
-                            <diagram id="TUFkX3nXo-2MK1rdvojP" name="Page-1">
-                            <mxGraphModel dx="1999" dy="1331" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
-                            <root>
-                            <mxCell id="0" />
-                            <mxCell id="1" parent="0" />
-                            <mxCell id="3" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=1;image=${imgEl.getAttribute('src').replace(';base64,', ',')};" vertex="1" parent="1">
-                            <mxGeometry x="0" y="0" width="500" height="500" as="geometry" />
-                            </mxCell>
-                            </root>
-                            </mxGraphModel>
-                            </diagram>
-                            </mxfile>`
+                            const xml = createXMLWithImage(dataURL)
                             console.log({xml})
                             iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xml': xml}),'*');
                             const newMessage = this.editor.config.get('diagram.newDiagramCreatedMessage');
@@ -91,6 +105,7 @@ export class EditDiagramCommand extends Command {
             })
 
 	}
+    
 
 	refresh() {
 		const imageUtils = this.editor.plugins.get( 'ImageUtils' );
@@ -101,4 +116,23 @@ export class EditDiagramCommand extends Command {
             this.isEnabled = true;
         }
 	}
+}
+
+function createXMLWithImage(dataURL){
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    <mxfile host="embed.diagrams.net" modified="2022-03-28T14:28:23.794Z" agent="5.0 (X11)" version="17.2.4" etag="wXAFyWxSF_gL4y4L3svE" type="embed">
+    <diagram id="TUFkX3nXo-2MK1rdvojP" name="Page-1">
+    <mxGraphModel dx="1999" dy="1331" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="3" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=1;image=${dataURL.replace(';base64,', ',')};" vertex="1" parent="1">
+    <mxGeometry x="0" y="0" width="500" height="500" as="geometry" />
+    </mxCell>
+    </root>
+    </mxGraphModel>
+    </diagram>
+    </mxfile>`
+    console.log({xml});
+    return xml;
 }
