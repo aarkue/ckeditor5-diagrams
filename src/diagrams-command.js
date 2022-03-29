@@ -52,14 +52,14 @@ export class EditDiagramCommand extends Command {
                         }
                         if(dataURL){
                             console.log('dataURL!',{dataURL})
-                            if(dataURL.indexOf('data:image/png') !== 0){
+                            // if(dataURL.indexOf('data:image/png') !== 0){
                                 // Content is not png, i.e. not png with embedded diagram
-                                const xml = createXMLWithImage(dataURL)
-                                iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': xml}),'*');
-                            }else{
+                            //     const xml = createXMLWithImage(dataURL)
+                            //     iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': xml}),'*');
+                            // }else{
                                 // First try to load image as xml (i.e., embedded diagram in png), if that fails, we create a new one (see below)
                                 iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': dataURL}),'*');
-                            }
+                            // }
                         }else{
                             console.log('No dataURL')
                             iframe.contentWindow.postMessage(JSON.stringify({action: 'load', xml: ''}),'*');
