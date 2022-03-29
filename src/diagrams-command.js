@@ -15,7 +15,7 @@ export class InsertDiagramCommand extends Command {
 }
 export class EditDiagramCommand extends Command {
 	execute() {
-		const imageUtils = editor.plugins.get( 'ImageUtils' );
+		const imageUtils = this.editor.plugins.get( 'ImageUtils' );
 		const imgEl = imageUtils.getClosestSelectedImageElement( this.editor.model.document.selection );
 			if (!imgEl) {
 				return;
@@ -26,7 +26,7 @@ export class EditDiagramCommand extends Command {
             console.log({imgEl})
             var iframe = document.createElement('iframe');
             iframe.setAttribute('frameborder', '0');
-            const url = editor.config.get('diagram.embedUrl') || 'https://embed.diagrams.net/?embed=1&ui=min&splash=0&spin=1&modified=unsavedChanges&proto=json&saveAndExit=1&noSaveBtn=1'
+            const url = this.editor.config.get('diagram.embedUrl') || 'https://embed.diagrams.net/?embed=1&ui=min&splash=0&spin=1&modified=unsavedChanges&proto=json&saveAndExit=1&noSaveBtn=1'
             iframe.setAttribute('src', url);
             iframe.setAttribute('style',"border:0;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:100;background-color:white;");
             document.body.appendChild(iframe);
@@ -64,7 +64,7 @@ export class EditDiagramCommand extends Command {
                             </mxfile>`
                             console.log({xml})
                             iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xml': xml}),'*');
-                            const newMessage = editor.config.get('diagram.newDiagramCreatedMessage');
+                            const newMessage = this.editor.config.get('diagram.newDiagramCreatedMessage');
                             if(newMessage){
                                 iframe.contentWindow.postMessage(JSON.stringify({action: 'status', message: newMessage, modified: true}),'*')
                             }
@@ -93,8 +93,7 @@ export class EditDiagramCommand extends Command {
 	}
 
 	refresh() {
-		const editor = this.editor;
-		const imageUtils = editor.plugins.get( 'ImageUtils' );
+		const imageUtils = this.editor.plugins.get( 'ImageUtils' );
 		const element = imageUtils.getClosestSelectedImageElement( this.editor.model.document.selection );
         if(!element){
             this.isEnabled = false;
