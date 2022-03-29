@@ -51,14 +51,14 @@ export class EditDiagramCommand extends Command {
                             console.error('Loading image failed', err);
                         }
                         if(dataURL){
+                            // if data type is unspecified, try png
+                            dataURL = dataURL.replace('data:application/octet-stream','data:image/png')
                             console.log('dataURL!',{dataURL})
                             // if(dataURL.indexOf('data:image/png') !== 0){
                                 // Content is not png, i.e. not png with embedded diagram
                             //     const xml = createXMLWithImage(dataURL)
                             //     iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': xml}),'*');
                             // }else{
-                                // if data type is unspecified, try png
-                                dataURL = dataURL.replace('data:application/octet-stream','data:image/png')
                                 // First try to load image as xml (i.e., embedded diagram in png), if that fails, we create a new one (see below)
                                 iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': dataURL}),'*');
                             // }

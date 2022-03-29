@@ -1,6 +1,6 @@
 {
   "name": "@aarkue/ckeditor5-diagrams",
-  "version": "33.0.4",
+  "version": "33.0.5",
   "description": "diagrams.net / draw.io integration for ckeditor5",
   "keywords": [
     "ckeditor",
