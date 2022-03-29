@@ -57,6 +57,8 @@ export class EditDiagramCommand extends Command {
                             //     const xml = createXMLWithImage(dataURL)
                             //     iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': xml}),'*');
                             // }else{
+                                // if data type is unspecified, try png
+                                dataURL = dataURL.replace('data:application/octet-stream','data:image/png')
                                 // First try to load image as xml (i.e., embedded diagram in png), if that fails, we create a new one (see below)
                                 iframe.contentWindow.postMessage(JSON.stringify({action: 'load', 'xmlpng': dataURL}),'*');
                             // }
