@@ -18,7 +18,7 @@ The inserted diagrams are image elements in the editor/html. The diagram informa
 This package was created by the [ckeditor5-package-generator](https://www.npmjs.com/package/ckeditor5-package-generator) package.
 
 ## Live Example
-Visit [https://aarkue.github.io/ckeditor5-diagrams/editor_build_sample/sample/]https://aarkue.github.io/ckeditor5-diagrams/editor_build_sample/sample/ for a live example and try out the plugin without installing anything!
+Visit the [live example](https://aarkue.github.io/ckeditor5-diagrams/editor_build_sample/sample/) to try out the plugin without installing anything!
 
 ## Installation
 The package is not published on the npm repository yet, but can be installed using `npm i git+https://github.com/aarkue/ckeditor5-diagrams.git`.
