@@ -1,4 +1,5 @@
-build/
+/build/
+translations/
 coverage/
 node_modules/
 tmp/
