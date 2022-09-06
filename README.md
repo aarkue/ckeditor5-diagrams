@@ -21,20 +21,34 @@ This package was created by the [ckeditor5-package-generator](https://www.npmjs.
 Visit the [live example](https://aarkue.github.io/ckeditor5-diagrams/editor_build_sample/sample/) to try out the plugin without installing anything!
 
 ## Installation
-The package is not published on the npm repository yet, but can be installed using `npm i git+https://github.com/aarkue/ckeditor5-diagrams.git`.
+The package is not published on the npm repository yet but can be installed using `npm i git+https://github.com/aarkue/ckeditor5-diagrams.git`.
 
-To use this package you will need to create a custom CKEditor5 build (if you did not do so yet). Don't worry, it is pretty straightforward. See the next section for detailed instructions of how to do so.
+To use this package, you must create a custom CKEditor5 build (if you have not done so yet). But, don't worry, it is pretty straightforward. See the next section for detailed instructions on how to do so.
 
 ## Editor Build
 1. Create a CKEditor5 editor build using [the online builder](https://ckeditor.com/ckeditor-5/online-builder/).
-2. Download and extract the generated folder, navigate into it.
+2. Download and extract the generated folder, and navigate into it.
 3. Run `npm install` to install all CKEditor5 dependencies.
 4. Run `npm i git+https://github.com/aarkue/ckeditor5-diagrams.git` to install this package (ckeditor5-diagrams).
-5. Add the ckeditor5-diagrams plugin to the editor using `src/ckeditor.js`, see the folder `editor_build_sample` in this repositority for an example of how to do so.
+5. Add the ckeditor5-diagrams plugin to the editor using `src/ckeditor.js`; see the folder `editor_build_sample` in this repository for an example of how to do so.
 6. Run `npm run build` to create a js-bundle of the editor. You can test it by serving the `sample/index.html` file in your folder.
 
 The generated file `build/ckeditor5.js` can then be used everywhere and served directly.
-## Table of contents
+
+
+<hr/>
+See below for further development information.
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+## Development: Table of contents
 
 * [Developing the package](#developing-the-package)
 * [Available scripts](#available-scripts)
