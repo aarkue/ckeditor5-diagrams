@@ -90,7 +90,8 @@ ClassicEditor
 		},
 		diagram: {
 			embedUrl: 'https://embed.diagrams.net/?embed=1&splash=0&spin=1&modified=unsavedChanges&proto=json&saveAndExit=1&noSaveBtn=1',
-			newDiagramCreatedMessage: 'Newly created'
+			newDiagramCreatedMessage: 'Newly created',
+			imgFormat: 'svg'
 		}
 	} )
 	.then( editor => {
